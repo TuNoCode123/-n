@@ -13,23 +13,22 @@ import {
 import { inject } from "vue";
 
 const props = defineProps<{
-  isOpen: boolean;
   closeDialog: () => void;
-  id: number;
+  id: number | undefined;
 }>();
 
-console.log("---->", props.id);
+const isOpen = defineModel<boolean>("isOpen");
 // const emit = defineEmits(["closeDialog"]);
 const delUser: any = inject("delUser");
 </script>
 
 <template>
-  <Dialog :open="props.isOpen">
+  <Dialog v-model:open="isOpen">
     <DialogContent class="sm:max-w-md">
       <DialogHeader>
-        <DialogTitle>Share link</DialogTitle>
+        <DialogTitle>Delete </DialogTitle>
         <DialogDescription>
-          Anyone who has this link will be able to view this.
+          Bạn có muốn xóa người dùng có Id={{ props.id }} không?
         </DialogDescription>
       </DialogHeader>
 
@@ -44,7 +43,7 @@ const delUser: any = inject("delUser");
             Close
           </Button>
           <Button type="button" @click="() => delUser(props.id)">
-            submit
+            Delete
           </Button>
         </DialogClose>
       </DialogFooter>

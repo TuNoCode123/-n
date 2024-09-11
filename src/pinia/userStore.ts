@@ -113,5 +113,38 @@ export const useUserStore = defineStore("myStore", {
         }
       }
     },
+    async resetStateUser() {
+      this.ecAddUser = 99;
+      this.ecDelUser = 99;
+    },
+  },
+});
+
+interface updateUserState {
+  isLoading: boolean;
+  ec: number;
+  isError: string;
+}
+export const useUpdateUserStore = defineStore("useUpdateUserStore", {
+  state: (): updateUserState => ({
+    isLoading: false,
+    ec: 99,
+    isError: "",
+  }),
+  actions: {
+    async updateUser(user: Partial<Iuser>) {
+      try {
+        this.isLoading = true;
+        const res = await userService.updateUser(user);
+        this.isLoading = false;
+        this.ec = res.EC;
+        this.isError = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isError = "error browser";
+        this.isLoading = false;
+        this.ec = 99;
+      }
+    },
   },
 });

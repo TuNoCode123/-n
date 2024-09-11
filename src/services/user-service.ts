@@ -79,5 +79,27 @@ class ServiceUser {
       };
     }
   };
+  public updateUser = async (user: Partial<Iuser>): Promise<Iouput<string>> => {
+    try {
+      const form = new FormData();
+      if (user && user.id) form.append("id", user.id);
+      if (user && user.email) form.append("email", user.email);
+      if (user && user.password) form.append("passWord", user.password);
+      if (user && user.firstName) form.append("firstName", user.firstName);
+      if (user && user.lastName) form.append("lastName", user.lastName);
+      if (user && user.address) form.append("address", user.address);
+      if (user && user.phoneNumber)
+        form.append("phoneNumber", user.phoneNumber);
+      if (user && user.gender) form.append("gender", user.gender);
+      if (user && user.roleId) form.append("roleId", user.roleId);
+      if (user && user.image) form.append("images", user.image);
+      return await instance.put("update-user", form);
+    } catch (error) {
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
 }
 export default new ServiceUser();

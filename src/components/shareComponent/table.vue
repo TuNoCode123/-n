@@ -12,51 +12,6 @@ import { Iuser } from "@/interface/user";
 import { Button } from "@/components/ui/button";
 import Dialogverify from "./dialogverify.vue";
 import { ref } from "vue";
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
-
 const props = defineProps<{
   data: Iuser[];
 }>();
@@ -69,6 +24,8 @@ function hanlerOnclickDelete(id: any) {
 const closeDialog = () => {
   isOpen.value = false;
 };
+
+const emit = defineEmits(["click-button"]);
 </script>
 
 <template>
@@ -98,7 +55,9 @@ const closeDialog = () => {
         <TableCell>{{ item.phoneNumber }}</TableCell>
         <TableCell class="text-right">
           <div class="flex gap-2">
-            <Button variant="secondary">Update</Button>
+            <Button variant="secondary" @click="emit('click-button', item)"
+              >Update</Button
+            >
             <Button
               @click="() => hanlerOnclickDelete(item.id)"
               variant="destructive"
@@ -109,5 +68,9 @@ const closeDialog = () => {
       </TableRow>
     </TableBody>
   </Table>
-  <Dialogverify :isOpen="isOpen" :closeDialog="closeDialog" :id="chooseId" />
+  <Dialogverify
+    v-model:isOpen="isOpen"
+    :closeDialog="closeDialog"
+    :id="chooseId"
+  />
 </template>

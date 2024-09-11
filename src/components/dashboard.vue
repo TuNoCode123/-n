@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
+
 import Bar from "./bar/Bar.vue";
-import Menu from "./header/Menu.vue";
+import Menu from "./ecommerce/user/header/Menu.vue";
 </script>
 
 <template>

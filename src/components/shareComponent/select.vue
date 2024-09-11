@@ -13,13 +13,14 @@ import type { IallCode } from "../../interface/allcode";
 const props = defineProps<{
   listItem: IallCode[];
   type: String;
+  defautvalue: string;
 }>();
 
 const gender = defineModel("gender");
 </script>
 
 <template>
-  <Select class="w-60" v-model="gender">
+  <Select class="w-60" v-model="gender" :defautvalue="defautvalue">
     <SelectTrigger class="w-[180px] w-full">
       <SelectValue placeholder="Select Gender" />
     </SelectTrigger>
@@ -27,7 +28,6 @@ const gender = defineModel("gender");
       <SelectGroup>
         <SelectLabel v-if="type == 'gender'">Gender</SelectLabel>
         <SelectLabel v-if="type == 'role'">Role</SelectLabel>
-
         <SelectItem
           v-for="(items, index) in props.listItem"
           :value="items.keyMap"
