@@ -26,7 +26,6 @@ import FormUpdateUser from "./formUpdateUser.vue";
 // Reuse `form` section
 const [UseTemplate, GridForm] = createReusableTemplate();
 const isDesktop = useMediaQuery("(min-width: 768px)");
-
 const isOpenModalUpdate = defineModel<boolean>("isOpenModalUpdate");
 </script>
 

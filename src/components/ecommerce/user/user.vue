@@ -20,6 +20,7 @@ import { Iuser } from "@/interface/user";
 import ModalUpdate from "./modalUpdate.vue";
 import { copyObject } from "@/util/copy";
 import { differentObject } from "@/util/relationShip";
+import { useCategoryStore } from "@/pinia/categoryStore";
 
 const isOpen = ref(false);
 provide("isOpen", isOpen);
@@ -30,17 +31,10 @@ function setIsOpen() {
 provide("setIsOpen", setIsOpen);
 const store = useUserStore();
 
-onMounted(async () => {
-  await Promise.all([
-    store.getAllUser(),
-    store.getType("gender"),
-    store.getRoleId("role"),
-  ]);
-});
-
 async function hanlderOnclickDelete(id: any) {
   await store.delUser(id);
 }
+
 watch(
   () => store.ecDelUser,
   async (newValue, oldValue) => {
@@ -67,9 +61,6 @@ function hanlderClickUpdate(user: Iuser) {
   initCurrentUser.value = copyObject(user);
   isOpenModalUpdate.value = !isOpenModalUpdate.value;
 }
-function handleUpdateIsOpen(value: boolean) {
-  isOpen.value = value;
-}
 provide("currentUser", currentUser);
 const useUpdate = useUpdateUserStore();
 async function hanlderSubmitUpdate() {
@@ -77,9 +68,10 @@ async function hanlderSubmitUpdate() {
     toRaw(currentUser),
     toRaw(initCurrentUser.value)
   );
-  console.log("newUser", newUser);
+
   await useUpdate.updateUser({ id: currentUser.id, ...newUser });
 }
+
 watch(
   () => useUpdate.ec,
   async (n, o) => {
@@ -96,7 +88,19 @@ watch(
     }
   }
 );
+const limit = ref<number>(5);
+const currentPage = ref<number>(0);
 provide("hanlderSubmitUpdate", hanlderSubmitUpdate);
+function getCurrentPage(page: number) {
+  currentPage.value = page;
+}
+watch(
+  () => currentPage.value,
+  async (n, o) => {
+    await store.getAllUser(currentPage.value - 1, limit.value);
+  }
+);
+provide("getCurrentPage", getCurrentPage);
 </script>
 
 <template>

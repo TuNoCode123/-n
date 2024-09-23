@@ -17,6 +17,7 @@ interface userState {
   isLoadingDelUser: boolean;
   messageDelUser: string;
   ecDelUser?: number;
+  allRowsUser?: number;
 }
 export const useUserStore = defineStore("myStore", {
   // State: nơi định nghĩa các trạng thái cần lưu trữ
@@ -85,11 +86,12 @@ export const useUserStore = defineStore("myStore", {
         }
       }
     },
-    async getAllUser() {
+    async getAllUser(page?: number, limitPage?: number) {
       try {
         this.isLoadingGetAllUser = true;
-        const res = await userService.getAllUser();
-        this.listUsers = res.data;
+        const res: any = await userService.getAllUser(page, limitPage);
+        this.listUsers = res?.data?.rows;
+        this.allRowsUser = res?.data?.count;
         this.isLoadingGetAllUser = false;
       } catch (error) {
         if (error instanceof Error) {

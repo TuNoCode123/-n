@@ -59,9 +59,14 @@ class ServiceUser {
       return "err";
     }
   };
-  public getAllUser = async (): Promise<Iouput<Iuser[]>> => {
+  public getAllUser = async (
+    page?: number,
+    limitPage?: number
+  ): Promise<Iouput<Iuser[]>> => {
     try {
-      return await instance.get("get-all-users");
+      return await instance.get(
+        `get-all-users?page=${page}&limitPage=${limitPage}`
+      );
     } catch (error) {
       return {
         EC: 1,

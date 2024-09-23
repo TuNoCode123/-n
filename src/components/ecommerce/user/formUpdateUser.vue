@@ -20,7 +20,6 @@ watch(
   (n, o) => {
     if (!currentUser) return;
     currentUser.gender = n;
-    // currentUser["gender"] = n;
   }
 );
 watch(
@@ -28,7 +27,6 @@ watch(
   (n, o) => {
     if (!currentUser) return;
     currentUser.roleId = n;
-    // currentUser["gender"] = n;
   }
 );
 async function updateUser(event: Event, type: keyof Iuser) {

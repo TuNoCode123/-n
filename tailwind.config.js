@@ -26,6 +26,7 @@ module.exports = {
         colorRight: "#f6f4f8",
         colorMenu: "#fefeff",
         colorBar: "#ffffff",
+        colorProduct: "#F8F9FA",
         colorHoverItemBar: "#eee",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

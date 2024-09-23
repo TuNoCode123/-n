@@ -26,8 +26,26 @@ const accordionItems = [
       {
         value: "item-6",
         title: "Products",
+        child: [
+          {
+            value: "item-9",
+            title: "Dashboard",
+            content: "Yes. It adheres to the WAI-ARIA design pattern.",
+            url: "/product",
+          },
+          {
+            value: "item-10",
+            title: "Attribute",
+            content: "Yes. It adheres to the WAI-ARIA design pattern.",
+            url: "/attribute",
+          },
+        ],
+      },
+      {
+        value: "item-7",
+        title: "Categories",
         content: "Yes. It adheres to the WAI-ARIA design pattern.",
-        url: "/product",
+        url: "/category",
       },
     ],
   },
@@ -75,7 +93,33 @@ const accordionItems = [
             :key="itemChild.value"
             :value="itemChild.value"
           >
-            <RouterLink :to="itemChild.url">
+            <AccordionTrigger
+              v-if="itemChild.child"
+              class="hover:bg-colorHoverItemBar rounded-lg p-2"
+            >
+              <div class="flex items-center gap-2">
+                <span class="text-base"> {{ itemChild.title }}</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent v-if="itemChild.child">
+              <Accordion type="single" collapsible class="ml-2">
+                <AccordionItem
+                  v-for="itemChild1 in itemChild.child"
+                  :key="itemChild1.value"
+                  :value="itemChild1.value"
+                >
+                  <RouterLink :to="itemChild1.url">
+                    <div
+                      class="p-2 hover:bg-colorHoverItemBar rounded-lg cursor-pointer"
+                    >
+                      {{ itemChild1.title }}
+                    </div></RouterLink
+                  >
+                </AccordionItem>
+              </Accordion>
+            </AccordionContent>
+
+            <RouterLink v-else :to="itemChild.url">
               <div
                 class="p-2 hover:bg-colorHoverItemBar rounded-lg cursor-pointer"
               >

@@ -11,6 +11,7 @@ import {
 import { Iuser } from "@/interface/user";
 import { Button } from "@/components/ui/button";
 import Dialogverify from "./dialogverify.vue";
+import Pagination from "./pagination.vue";
 import { ref } from "vue";
 const props = defineProps<{
   data: Iuser[];
@@ -24,13 +25,11 @@ function hanlerOnclickDelete(id: any) {
 const closeDialog = () => {
   isOpen.value = false;
 };
-
 const emit = defineEmits(["click-button"]);
 </script>
 
 <template>
-  <Table class="bg-slate-950 text-gray-50">
-    <TableCaption>A list of your recent invoices.</TableCaption>
+  <Table class="bg-slate-950 text-gray-50 p-3">
     <TableHeader>
       <TableRow>
         <TableHead class="w-[100px] text-slate-200s">Id </TableHead>
@@ -68,6 +67,8 @@ const emit = defineEmits(["click-button"]);
       </TableRow>
     </TableBody>
   </Table>
+  <div class="w-fit mx-auto p-3"><Pagination /></div>
+
   <Dialogverify
     v-model:isOpen="isOpen"
     :closeDialog="closeDialog"

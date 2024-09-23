@@ -27,16 +27,15 @@ function handlerOnlickBackHome() {
   window.location.href =
     import.meta.env.VITE_BASEURL_APP ?? "http://localhost:5174";
 }
-console.log("inforUser", store.inforUser);
-watch(
-  () => store.err,
-  (newValue, oldValue) => {
-    if (newValue == "err") {
-      window.location.href =
-        import.meta.env.VITE_BASEURL_APP ?? "http://localhost:5174";
-    }
-  }
-);
+// watch(
+//   () => store.err,
+//   (newValue, oldValue) => {
+//     if (newValue == "err") {
+//       window.location.href =
+//         import.meta.env.VITE_BASEURL_APP ?? "http://localhost:5174";
+//     }
+//   }
+// );
 </script>
 
 <template>
