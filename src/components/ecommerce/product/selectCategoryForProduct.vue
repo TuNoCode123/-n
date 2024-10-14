@@ -24,7 +24,11 @@ function clickSelect() {
 watch(
   () => gender.value,
   (n, o) => {
-    emit("updateProduct", null, props.uuid, "categoryId", gender.value);
+    if (props.uuid) {
+      emit("updateProduct", null, props.uuid, "categoryId", gender.value);
+      return;
+    }
+    emit("updateProduct", null, "categoryId", gender.value);
   }
 );
 </script>

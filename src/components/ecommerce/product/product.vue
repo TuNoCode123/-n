@@ -2,7 +2,11 @@
 import { ref, provide, watch, KeepAlive } from "vue";
 import AccodianProduct from "./accodianProduct.vue";
 import TableProduct from "./tableProduct.vue";
-import { useCreateProduct, useDeleteProductStore } from "@/pinia/productStore";
+import {
+  findExistedShop,
+  useCreateProduct,
+  useDeleteProductStore,
+} from "@/pinia/productStore";
 import { toast } from "vue3-toastify";
 
 const currentPage = ref<number>(0);
@@ -11,21 +15,27 @@ function getCurrentPageProduct(page: number) {
   currentPage.value = page;
 }
 const productStore = useCreateProduct();
+const shops = findExistedShop();
 
 watch(
   () => currentPage.value,
   async (n, o) => {
-    await productStore.getAllProduct(currentPage.value - 1, limit.value);
+    await productStore.getAllProduct(
+      currentPage.value - 1,
+      limit.value,
+      shops.shop?.id
+    );
   }
 );
 const deleteProduct = useDeleteProductStore();
+
 watch(
   () => deleteProduct.isEc,
   (n) => {
     if (n == 0) {
       toast.success(deleteProduct.isEM);
       setTimeout(async () => {
-        await productStore.getAllProduct();
+        await productStore.getAllProduct(shops.shop?.id);
       }, 300);
       deleteProduct.$reset();
     } else if (n == 1) {

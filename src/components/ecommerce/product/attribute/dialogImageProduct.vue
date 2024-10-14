@@ -12,7 +12,9 @@ import {
 } from "@/components/ui/dialog";
 import {
   deleteAttributeOfProduct,
+  deleteChildProduct,
   deleteImageOfProduct,
+  getAllProductChilds,
   getAttributeOfProduct,
   getImageOfProduct,
 } from "@/pinia/productStore";
@@ -23,12 +25,18 @@ const props = defineProps<{
   closeDialog: () => void;
   id: number | undefined;
   productId: number;
+  type: string;
 }>();
 
 const isOpen = defineModel<boolean>("isOpen");
 
 const deleteImage = deleteImageOfProduct();
+const deleteChild = deleteChildProduct();
 async function handlerClickDeleteProduct(id: number) {
+  if (props.type == "childProduct") {
+    await deleteChild.deleteChild(id, props.productId);
+    return;
+  }
   await deleteImage.deleteImage(id, props.productId);
 }
 const productImage = getImageOfProduct();
@@ -48,6 +56,23 @@ watch(
     }
   }
 );
+const getAllChild = getAllProductChilds();
+watch(
+  () => deleteChild.isEc,
+  (n) => {
+    if (n == 0) {
+      setTimeout(async () => {
+        // await productImage.getImage(props.productId);
+        await getAllChild.getChildOfProduct(props.productId);
+        deleteChild.reset();
+        toast.success(deleteChild.isEM);
+      }, 200);
+    } else if (n == 1) {
+      toast.error(deleteChild.isEM);
+      deleteChild.reset();
+    }
+  }
+);
 </script>
 
 <template>
@@ -55,7 +80,11 @@ watch(
     <DialogContent class="sm:max-w-md">
       <DialogHeader>
         <DialogTitle>Delete </DialogTitle>
-        <DialogDescription>
+
+        <DialogDescription v-if="props.type">
+          Bạn có muốn xóa Child Product có Id={{ props.id }} không?
+        </DialogDescription>
+        <DialogDescription v-else>
           Bạn có muốn xóa Attribute có Id={{ props.id }} không?
         </DialogDescription>
       </DialogHeader>

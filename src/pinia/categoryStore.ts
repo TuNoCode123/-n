@@ -52,10 +52,10 @@ export const useCategoryStore = defineStore("categoryStore", {
         this.isEmCreat = "error pinia";
       }
     },
-    async getAllCategoryNoPaginate(limit?: number, limitPage?: number) {
+    async getAllCategoryNoPaginate(shopId?: number) {
       try {
         this.isLoadingNoPaginate = true;
-        const res = await categoryService.getAllCategoryNoPaginate();
+        const res = await categoryService.getAllCategoryNoPaginate(shopId);
         this.isLoadingNoPaginate = false;
         this.listCategoryNoPaginate = res.data;
       } catch (error) {

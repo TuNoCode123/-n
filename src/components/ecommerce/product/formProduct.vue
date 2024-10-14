@@ -10,7 +10,7 @@ import _ from "lodash";
 import Button from "@/components/ui/button/Button.vue";
 import { useCategoryStore } from "@/pinia/categoryStore";
 import SelectCategoryForProduct from "./selectCategoryForProduct.vue";
-import { useCreateProduct } from "@/pinia/productStore";
+import { findExistedShop, useCreateProduct } from "@/pinia/productStore";
 import { toast } from "vue3-toastify";
 
 // async function onChangeInputCategory(event: Event, type: keyof Icategory) {
@@ -37,6 +37,7 @@ const product = reactive<Iproduct[]>([
     branch: "",
     categoryId: "",
     totalPrices: "",
+    quantity: 0,
   },
 ]);
 
@@ -48,6 +49,7 @@ function hanlerClickOnPlus() {
     price: "",
     branch: "",
     categoryId: "",
+    quantity: 0,
   };
   product.push(Temp_product);
 }
@@ -84,12 +86,14 @@ function updateProduct(
   }
 }
 const useProduct = useCreateProduct();
+const shop = findExistedShop();
 async function hanlderOnclickSubmit() {
-  await useProduct.createProduct(product);
+  if (!shop || !shop.shop) return;
+  await useProduct.createProduct(product, shop.shop?.id);
 }
 
 const categoryStore = useCategoryStore();
-
+const shops = findExistedShop();
 watch(
   () => useProduct.isEC,
   async (n, o) => {
@@ -105,10 +109,11 @@ watch(
             price: "",
             branch: "",
             categoryId: "",
+            quantity: 0,
           },
         ]
       );
-      await useProduct.getAllProduct();
+      await useProduct.getAllProduct(undefined, undefined, shops.shop?.id);
       useProduct.$reset();
     } else if (n == 1) {
       toast.error(useProduct.isEM);
@@ -181,12 +186,23 @@ const listItem = computed(() =>
           />
         </div>
       </div>
-      <div class="grid md:grid-cols-1 md:gap-6 mt-3">
+      <div class="grid md:grid-cols-2 md:gap-6 mt-3">
         <div class="relative z-0 w-full mb-5">
           <SelectCategoryForProduct
             :listItemCategory="listItem"
             @updateProduct="updateProduct"
             :uuid="item.uuid"
+          />
+        </div>
+        <div class="grid w-full max-w-sm items-center gap-1.5">
+          <Label>Số Lượng</Label>
+          <input
+            id="quantity"
+            class="outline-none h-10 p-2 border-2 rounded-sm"
+            type="text"
+            placeholder="Nhập Số Lượng"
+            :value="item.quantity"
+            @input="(e:Event) => updateProduct(e,item.uuid, 'quantity')"
           />
         </div>
       </div>

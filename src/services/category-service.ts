@@ -64,9 +64,13 @@ class ServiceCategory {
       };
     }
   };
-  public getAllCategoryNoPaginate = async (): Promise<Iouput<Icategory[]>> => {
+  public getAllCategoryNoPaginate = async (
+    shopId?: number
+  ): Promise<Iouput<Icategory[]>> => {
     try {
-      return await instance.get(`get-all-category-no-paginate`);
+      return await instance.get(
+        `get-all-category-no-paginate?shopId=${shopId}`
+      );
     } catch (error) {
       console.log(error);
       return {

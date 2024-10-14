@@ -1,5 +1,6 @@
 import { Iuser } from "@/interface/user";
 import userService from "@/services/user-service";
+import { convertFileIntoBase64 } from "@/util/convert";
 import { defineStore } from "pinia";
 interface userState {
   inforUser: Iuser | undefined;
@@ -26,6 +27,7 @@ export const useAccountStore = defineStore("accountStore", {
           this.err = "err";
           return;
         }
+
         this.inforUser = JSON.parse(res?.data)?.data;
       } catch (error) {
         if (error instanceof Error) {

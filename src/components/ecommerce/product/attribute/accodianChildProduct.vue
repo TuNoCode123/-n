@@ -13,6 +13,7 @@ import { MdEditor } from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 import ListAttribute from "./listAttribute.vue";
 import ListImageProduct from "./listImageProduct.vue";
+import TableProductChild from "./tableProductChild.vue";
 const defaultValue = "item-1";
 const useProduct = useCreateProduct();
 const isOpen = ref(false);
@@ -51,7 +52,7 @@ const emit = defineEmits(["renderHtml"]);
       </AccordionTrigger>
       <AccordionContent>
         <div class="w-full mt-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
-          <ListImageProduct />
+          <TableProductChild />
         </div>
       </AccordionContent>
     </AccordionItem>

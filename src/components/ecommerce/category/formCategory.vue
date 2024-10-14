@@ -15,8 +15,8 @@ const preImg = ref<any>("");
 const currentUser = inject<Iuser>("currentUser");
 
 const listItem = computed(() =>
-  categoryStore && categoryStore.listCategory
-    ? toRaw(categoryStore.listCategory)
+  categoryStore && categoryStore.listCategoryNoPaginate
+    ? toRaw(categoryStore.listCategoryNoPaginate)
     : undefined
 );
 const inforCate = reactive<Partial<Icategory>>({});

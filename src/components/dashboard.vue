@@ -8,15 +8,16 @@ import { useUserStore } from "@/pinia/userStore";
 import { useCategoryStore } from "@/pinia/categoryStore";
 const categoryStore = useCategoryStore();
 import { useScroll } from "@vueuse/core";
-import { useCreateProduct } from "@/pinia/productStore";
+import { findExistedShop, useCreateProduct } from "@/pinia/productStore";
 const store = useUserStore();
 const useProduct = useCreateProduct();
+const shop = findExistedShop();
 onMounted(async () => {
   await Promise.all([
     store.getAllUser(0, 5),
     categoryStore.getAllCategoryNoPaginate(),
     categoryStore.getAllCategory(),
-    useProduct.getAllProduct(),
+    // useProduct.getAllProduct(undefined, undefined, shop.shop?.id),
     store.getType("gender"),
     store.getRoleId("role"),
   ]);
@@ -35,7 +36,7 @@ const { x, y, isScrolling, arrivedState, directions } = useScroll(el);
       ref="el"
     >
       <div><Menu /></div>
-      <div class="w-11/12 mt-3 shadow-md mx-auto bg-colorMenu p-2">
+      <div class="w-11/12 mt-3 shadow-md mx-auto bg-colorMenu p-2 h-fit">
         <RouterView />
       </div>
     </div>

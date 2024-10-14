@@ -18,6 +18,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAccountStore } from "@/pinia/accountStore";
 import { onMounted, watch } from "vue";
+import { findExistedShop, useCreateProduct } from "@/pinia/productStore";
+import { useCategoryStore } from "@/pinia/categoryStore";
 
 const store = useAccountStore();
 onMounted(() => {
@@ -27,15 +29,39 @@ function handlerOnlickBackHome() {
   window.location.href =
     import.meta.env.VITE_BASEURL_APP ?? "http://localhost:5174";
 }
-// watch(
-//   () => store.err,
-//   (newValue, oldValue) => {
-//     if (newValue == "err") {
-//       window.location.href =
-//         import.meta.env.VITE_BASEURL_APP ?? "http://localhost:5174";
-//     }
-//   }
-// );
+const useProduct = useCreateProduct();
+
+const shop = findExistedShop();
+watch(
+  () => store.inforUser,
+  async (n) => {
+    await shop.findShop(n?.id);
+  },
+  {
+    deep: true,
+  }
+);
+const categoryStore = useCategoryStore();
+watch(
+  () => shop.isEc,
+  async (n) => {
+    if (n == 0) {
+      await Promise.all([
+        useProduct.getAllProduct(undefined, undefined, shop.shop?.id),
+        categoryStore.getAllCategoryNoPaginate(shop.shop?.id),
+      ]);
+    }
+  }
+);
+watch(
+  () => store.err,
+  (newValue, oldValue) => {
+    if (newValue == "err") {
+      window.location.href =
+        import.meta.env.VITE_BASEURL_APP ?? "http://localhost:5174";
+    }
+  }
+);
 </script>
 
 <template>

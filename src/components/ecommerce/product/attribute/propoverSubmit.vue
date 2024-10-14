@@ -11,6 +11,7 @@ const emit = defineEmits([
   "editDescription",
   "editAttribute",
   "editProduct",
+  "editChildProduct",
 ]);
 </script>
 
@@ -37,6 +38,12 @@ const emit = defineEmits([
         class="cursor-pointer hover:bg-[#ee] p-2 rounded hover:text-blue-500"
       >
         Edit Product
+      </div>
+      <div
+        @click="emit('editChildProduct')"
+        class="cursor-pointer hover:bg-[#ee] p-2 rounded hover:text-blue-500"
+      >
+        Edit Child Product
       </div>
       <div
         @click="emit('editAttribute')"

@@ -8,10 +8,25 @@ import {
 import Cart from "../../SvgComponent/cart.vue";
 import User from "../../SvgComponent/user.vue";
 import { RouterLink } from "vue-router";
+import { useAccountStore } from "@/pinia/accountStore";
+import { reactive, watch } from "vue";
 
+const accountStore = useAccountStore();
+
+watch(
+  () => accountStore.inforUser,
+  (n, o) => {
+    if (n?.roleId != "R1") {
+      accordionItems[0].child.shift();
+    }
+  },
+  {
+    deep: true,
+  }
+);
 const defaultValue = "item-1";
 
-const accordionItems = [
+const accordionItems = reactive([
   {
     value: "item-1",
     title: "eCommerce",
@@ -19,9 +34,16 @@ const accordionItems = [
     child: [
       {
         value: "item-5",
-        title: "Users",
+        title: "Admin",
         content: "Yes. It adheres to the WAI-ARIA design pattern.",
-        url: "/user",
+        child: [
+          {
+            value: "item-91",
+            title: "Users",
+            content: "Yes. It adheres to the WAI-ARIA design pattern.",
+            url: "/shop",
+          },
+        ],
       },
       {
         value: "item-6",
@@ -62,7 +84,7 @@ const accordionItems = [
       },
     ],
   },
-];
+]);
 </script>
 
 <template>

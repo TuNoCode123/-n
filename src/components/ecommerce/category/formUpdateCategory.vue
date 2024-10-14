@@ -30,6 +30,7 @@ const listItem = computed(() =>
     ? toRaw(categoryStore.listCategoryNoPaginate)
     : undefined
 );
+
 const inforCate = reactive<Partial<Icategory>>({});
 
 async function onChangeInputCategory(event: Event, type: keyof Icategory) {

@@ -16,9 +16,10 @@ import { useCategoryStore } from "@/pinia/categoryStore";
 const props = defineProps<{
   listItemCategory: Icategory[];
   uuid: number;
+  type: string;
 }>();
 const gender = ref<Iproduct[]>();
-const emit = defineEmits(["getProductOfCategory"]);
+const emit = defineEmits(["getProductOfCategory", "updateProduct"]);
 watch(
   () => gender.value,
   (nV) => {

@@ -5,6 +5,10 @@ import Popover from "@/components/shareComponent/popover.vue";
 import { inject, toRaw } from "vue";
 import { Iproduct } from "@/interface/user";
 import { getPercent } from "@/util/getPercent";
+import Select from "./select.vue";
+import SelectCategoryForProduct from "../selectCategoryForProduct.vue";
+import { useCategoryStore } from "@/pinia/categoryStore";
+import SelectImageForProduct from "./selectImageForProduct.vue";
 
 // async function onChangeInputCategory(event: Event, type: keyof Icategory) {
 //   if (type == "image") {
@@ -34,8 +38,18 @@ import { getPercent } from "@/util/getPercent";
 
 const product = inject("productLIst");
 
-function updateProduct(event: Event, type: keyof Iproduct) {
+function updateProduct(event?: Event, type: keyof Iproduct, value?: number) {
+  if (value) {
+    product.value[type] = value;
+    return;
+  }
+
+  if (!event) return;
   const input = event.target as HTMLInputElement;
+  if (type == "quantity") {
+    quantity.value = input.value;
+    return;
+  }
   product.value[type] = input.value;
   if (type == "discount") {
     const percentDiscount = getPercent(+input.value);
@@ -43,6 +57,8 @@ function updateProduct(event: Event, type: keyof Iproduct) {
       product.value["price"] - percentDiscount * product.value["price"];
   }
 }
+const quantity = inject("quantity");
+const categoryStore = useCategoryStore();
 </script>
 
 <template>
@@ -122,6 +138,21 @@ function updateProduct(event: Event, type: keyof Iproduct) {
         />
       </div>
 
+      <div
+        v-if="product?.product_inventory.length == 0"
+        class="grid w-full max-w-sm items-center gap-1.5 mt-2"
+      >
+        <Label>Quantity</Label>
+        <input
+          id="Quantity"
+          class="outline-none h-10 p-2 border-2 rounded-sm"
+          type="text"
+          :value="quantity"
+          @input="(e:Event) => updateProduct(e, 'quantity')"
+          placeholder="Nhập Số Lượng"
+        />
+      </div>
+
       <div class="grid w-full max-w-sm items-center gap-1.5 mt-2">
         <Label>Total Price</Label>
         <input
@@ -133,15 +164,21 @@ function updateProduct(event: Event, type: keyof Iproduct) {
         />
       </div>
 
-      <!-- <div class="grid md:grid-cols-1 md:gap-6 mt-3">
-        <div class="relative z-0 w-full mb-5">
+      <div class="grid md:grid-cols-1 md:gap-6 mt-3">
+        <div class="relative z-0 w-full">
           <SelectCategoryForProduct
-            :listItemCategory="listItem"
             @updateProduct="updateProduct"
-            :uuid="item.uuid"
+            :listItemCategory="categoryStore.listCategoryNoPaginate"
+            type="update"
           />
         </div>
-      </div> -->
+      </div>
+
+      <div class="grid md:grid-cols-1 md:gap-6 mt-3">
+        <div class="relative z-0 w-full mb-5">
+          <SelectImageForProduct @updateProduct="updateProduct" type="update" />
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -1,8 +1,10 @@
 import {
   Iattribute,
+  IchildProduct,
   IdescriptionProduct,
   IimageProduct,
   Iproduct,
+  Ishop,
   Iuser,
 } from "@/interface/user";
 import productService from "@/services/product-service";
@@ -32,10 +34,10 @@ export const useCreateProduct = defineStore("useCreateProduct", {
 
   // Actions: nơi khai báo các phương thức để thay đổi state
   actions: {
-    async createProduct(product: Iproduct[]) {
+    async createProduct(product: Iproduct[], shopId: number) {
       try {
         this.isLoading = true;
-        const res = await productService.createProduct(product);
+        const res = await productService.createProduct(product, shopId);
         this.isLoading = false;
         this.isEC = res.EC;
         this.isEM = res.EM;
@@ -45,10 +47,14 @@ export const useCreateProduct = defineStore("useCreateProduct", {
         this.isEM = "error";
       }
     },
-    async getAllProduct(limit?: number, limitPage?: number) {
+    async getAllProduct(limit?: number, limitPage?: number, shopId?: number) {
       try {
         this.isLoadingGetAll = true;
-        const res: any = await productService.getAllProduct(limit, limitPage);
+        const res: any = await productService.getAllProduct(
+          limit,
+          limitPage,
+          shopId
+        );
         this.isLoadingGetAll = false;
         this.listProducts = res?.data?.rows;
         this.countProducts = res?.data?.count;
@@ -67,6 +73,9 @@ interface IuseDeleteProductStore {
   listProduct?: Iproduct;
   listAttribute?: Iattribute[];
   listImageProduct?: IimageProduct[];
+  selectedProduct?: IimageProduct;
+  listChildsProduct?: IchildProduct[];
+  shop?: Ishop;
 }
 export const useDeleteProductStore = defineStore("useDeleteProductStore", {
   state: (): IuseDeleteProductStore => ({
@@ -338,7 +347,8 @@ export const getImageOfProduct = defineStore("getImageOfProduct", {
         this.isLoading = false;
         this.isEc = res.EC;
         this.isEM = res.EM;
-        this.listImageProduct = res.data?.res;
+        this.listImageProduct =
+          res.data && res.data.res && res.data.res.length ? res.data.res : [];
       } catch (error) {
         console.log(error);
         this.isLoading = false;
@@ -351,6 +361,7 @@ export const getImageOfProduct = defineStore("getImageOfProduct", {
     },
   },
 });
+
 export const deleteImageOfProduct = defineStore("deleteImageOfProduct", {
   state: (): IuseDeleteProductStore => ({
     isLoading: false,
@@ -365,6 +376,142 @@ export const deleteImageOfProduct = defineStore("deleteImageOfProduct", {
         this.isLoading = false;
         this.isEc = res.EC;
         this.isEM = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+
+export const addChildProduct = defineStore("addChildProduct", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async addchildProducts(product: IchildProduct[]) {
+      try {
+        this.isLoading = true;
+        const res = await productService.addChildProduct(product);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+
+export const getAllProductChilds = defineStore("getAllProductChilds", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async getChildOfProduct(productId: number) {
+      try {
+        this.isLoading = true;
+        const res = await productService.getAllProductChild(productId);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+        this.listChildsProduct = res.data;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+
+export const deleteChildProduct = defineStore("deleteChildProduct", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async deleteChild(id: number, productId: number) {
+      try {
+        this.isLoading = true;
+        const res = await productService.deleteChildProduct(id, productId);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+
+export const createShopProduct = defineStore("createShop", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async createNewShop(shop: Partial<Ishop>) {
+      try {
+        this.isLoading = true;
+        const res = await productService.createNewShop(shop);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+export const findExistedShop = defineStore("findExistedShop", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async findShop(userId: number) {
+      try {
+        this.isLoading = true;
+        const res = await productService.findShop(userId);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+        this.shop = res.data;
       } catch (error) {
         console.log(error);
         this.isLoading = false;

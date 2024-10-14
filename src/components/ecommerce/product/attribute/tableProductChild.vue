@@ -10,10 +10,11 @@ import {
 
 import { Button } from "@/components/ui/button";
 
-import { computed, inject, ref } from "vue";
+import { computed, inject, onMounted, Ref, ref } from "vue";
 import { Iattribute } from "@/interface/user";
 import {
   deleteImageOfProduct,
+  getAllProductChilds,
   getAttributeOfProduct,
   getImageOfProduct,
 } from "@/pinia/productStore";
@@ -33,6 +34,12 @@ const closeDialog = () => {
 const hanlderClickUpdate = inject("hanlderClickUpdate");
 const deleteImage = deleteImageOfProduct();
 const imageProductStore = getImageOfProduct();
+const childStore = getAllProductChilds();
+const productId = inject<Ref<number>>("productId");
+
+// onMounted(async () => {
+//   await childStore.getChildOfProduct();
+// });
 </script>
 
 <template>
@@ -45,23 +52,30 @@ const imageProductStore = getImageOfProduct();
     <TableHeader>
       <TableRow>
         <TableHead class="text-slate-200s">Id </TableHead>
+        <TableHead class="text-slate-200s">Key</TableHead>
+        <TableHead class="text-slate-200s">Value</TableHead>
+        <TableHead class="text-slate-200s">quantity</TableHead>
         <TableHead class="text-slate-200s">Image</TableHead>
-        <TableHead class="text-slate-200s">publicId</TableHead>
         <TableHead class="text-slate-200s">Actions </TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
       <TableRow
-        v-for="(item, index) in imageProductStore.listImageProduct"
+        v-for="(item, index) in childStore.listChildsProduct"
         :key="index"
       >
         <TableCell>{{ item?.id }}</TableCell>
 
-        <TableCell class="w-20 h-20 object-contain">
-          <img :src="item?.image" height="10" />
+        <TableCell>{{ item?.k }}</TableCell>
+        <TableCell>{{ item?.v }}</TableCell>
+        <TableCell v-if="item?.product_child_inventory?.quantity">{{
+          item?.product_child_inventory?.quantity
+        }}</TableCell>
+        <TableCell v-else>0</TableCell>
+        <TableCell v-if="item.image" class="w-20 h-20 object-contain">
+          <img :src="item.image" height="10" />
         </TableCell>
-        <TableCell>{{ item?.publicId }}</TableCell>
-
+        <TableCell v-else>None</TableCell>
         <TableCell class="text-right">
           <div class="flex gap-2">
             <Button
@@ -79,6 +93,7 @@ const imageProductStore = getImageOfProduct();
     v-model:isOpen="isOpen"
     :closeDialog="closeDialog"
     :id="chooseId"
-    :productId="imageProductStore?.listImageProduct[0]?.productId"
+    :productId="childStore?.listChildsProduct[0]?.productId"
+    type="childProduct"
   />
 </template>

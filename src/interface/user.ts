@@ -40,6 +40,8 @@ export interface Iproduct {
   branch: string;
   pro_des?: IdescriptionProduct;
   at_product?: Iattribute[];
+  image?: any;
+  quantity?: number;
 }
 export interface Iinventory {
   id?: number;
@@ -53,9 +55,13 @@ export interface IdescriptionProduct {
 }
 export interface Iattribute {
   id?: number;
-  productId: number;
+  productId?: number;
   k: string;
   v: string;
+  publicId?: string;
+  uuid?: string;
+  image?: any;
+  quantity?: number;
 }
 
 export interface IallAttributeProduct<T> {
@@ -68,4 +74,23 @@ export interface IimageProduct {
   image: string;
   publicId: string;
   productId?: number;
+}
+export interface IchildProduct {
+  k: any;
+  v: any;
+  productId?: number;
+  id?: number;
+  image: any;
+  product_child_inventory?: {
+    quantity: number;
+  };
+}
+export interface Ishop {
+  id: number;
+  userId: any;
+  image: any;
+  backlog: any;
+  description: string;
+  name: string;
+  address: string;
 }
