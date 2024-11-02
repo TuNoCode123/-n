@@ -139,7 +139,7 @@ const categoryStore = useCategoryStore();
       </div>
 
       <div
-        v-if="product?.product_inventory.length == 0"
+        v-if="product?.product_inventory?.length == 0"
         class="grid w-full max-w-sm items-center gap-1.5 mt-2"
       >
         <Label>Quantity</Label>

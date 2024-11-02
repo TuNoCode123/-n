@@ -41,7 +41,13 @@ const accordionItems = reactive([
             value: "item-91",
             title: "Users",
             content: "Yes. It adheres to the WAI-ARIA design pattern.",
-            url: "/shop",
+            url: "/user",
+          },
+          {
+            value: "item-92",
+            title: "Coupons",
+            content: "Yes. It adheres to the WAI-ARIA design pattern.",
+            url: "/coupon",
           },
         ],
       },
@@ -61,6 +67,24 @@ const accordionItems = reactive([
             content: "Yes. It adheres to the WAI-ARIA design pattern.",
             url: "/attribute",
           },
+        ],
+      },
+      {
+        value: "item-677",
+        title: "Orders",
+        child: [
+          {
+            value: "item-932",
+            title: "Order Menu",
+            content: "Yes. It adheres to the WAI-ARIA design pattern.",
+            url: "/order",
+          },
+          // {
+          //   value: "item-1023",
+          //   title: "Attribute",
+          //   content: "Yes. It adheres to the WAI-ARIA design pattern.",
+          //   url: "/attribute",
+          // },
         ],
       },
       {

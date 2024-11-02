@@ -26,13 +26,6 @@ export const useCreateProduct = defineStore("useCreateProduct", {
     isEM: "",
     isLoadingGetAll: false,
   }),
-
-  // Getters: giống như computed, giúp tính toán các giá trị từ state
-  // getters: {
-  //   doubleCount: (state) => state.count * 2,
-  // },
-
-  // Actions: nơi khai báo các phương thức để thay đổi state
   actions: {
     async createProduct(product: Iproduct[], shopId: number) {
       try {

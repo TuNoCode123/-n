@@ -246,6 +246,7 @@ class ServiceProduct {
       };
     }
   };
+
   public createNewShop = async (
     shop: Partial<Ishop>
   ): Promise<Iouput<string>> => {
@@ -279,6 +280,7 @@ class ServiceProduct {
       };
     }
   };
+
   public findShop = (userId: number): Promise<Iouput<Ishop>> => {
     try {
       return instance.get(`find-shop?userId=${userId}`);

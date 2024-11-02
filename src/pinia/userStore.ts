@@ -18,6 +18,8 @@ interface userState {
   messageDelUser: string;
   ecDelUser?: number;
   allRowsUser?: number;
+  code?: IallCode[];
+  type?: IallCode[];
 }
 export const useUserStore = defineStore("myStore", {
   // State: nơi định nghĩa các trạng thái cần lưu trữ
@@ -43,7 +45,6 @@ export const useUserStore = defineStore("myStore", {
       try {
         this.isLoading = true;
         const response = await userService.getType(type);
-
         this.isLoading = false;
         this.allcodes = response.data;
       } catch (error) {
@@ -57,6 +58,26 @@ export const useUserStore = defineStore("myStore", {
       try {
         const response = await userService.getType(type);
         this.roleId = response.data;
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log("error at pinia ", error.message);
+        }
+      }
+    },
+    async getCode(type: string) {
+      try {
+        const response = await userService.getType(type);
+        this.code = response.data;
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log("error at pinia ", error.message);
+        }
+      }
+    },
+    async getStatus(type: string) {
+      try {
+        const response = await userService.getType(type);
+        this.type = response.data;
       } catch (error) {
         if (error instanceof Error) {
           console.log("error at pinia ", error.message);

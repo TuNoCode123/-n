@@ -94,3 +94,63 @@ export interface Ishop {
   name: string;
   address: string;
 }
+export interface Icounpon {
+  dateTo: any;
+  description: string;
+  discount: any;
+  limit: any;
+  status: string;
+  type: string;
+  condition: any;
+  id: number;
+  code_type?: {
+    valueVi: string;
+  };
+  code_status?: {
+    valueVi: string;
+    keyMap: string;
+  };
+}
+export interface IdataCoupon<T> {
+  rows: T;
+  count: number;
+}
+export interface IorderItems {
+  id: number;
+  orderId: number;
+  productId: number;
+  shopId: number;
+  productChildId: number | undefined;
+  quantity: number;
+  price: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  status_allcode: {
+    id: number;
+    type: string;
+    keyMap: string;
+    valueEn: string;
+    valueVi: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  guess: {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    phoneNumber: string;
+    gender: string;
+  };
+  pro_Order: Iproduct;
+  infor_Order: {
+    id: number;
+    productId: number;
+    k: string;
+    v: string;
+    image: string;
+  };
+  inventory: number;
+}

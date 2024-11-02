@@ -20,6 +20,8 @@ onMounted(async () => {
     // useProduct.getAllProduct(undefined, undefined, shop.shop?.id),
     store.getType("gender"),
     store.getRoleId("role"),
+    store.getCode("CODE"),
+    store.getStatus("STATUS"),
   ]);
 });
 const el = ref<HTMLElement | null>(null);
