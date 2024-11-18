@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { defineAsyncComponent } from "vue";
 import Loading from "./loading.vue";
 import { useAccountStore } from "./pinia/accountStore";
-
+import "vue3-emoji-picker/css";
 import Err from "./components/err.vue";
 import Category from "./components/ecommerce/category/category.vue";
 import Product from "./components/ecommerce/product/product.vue";
@@ -16,8 +16,18 @@ const Dashboard = defineAsyncComponent({
   loader: () => import("./components/dashboard.vue"),
   loadingComponent: Loading,
 });
+
+const Message = defineAsyncComponent(
+  () => import("./components/ecommerce/message/message.vue")
+);
+const DashboardShop = defineAsyncComponent(
+  () => import("./components/ecommerce/dashboard/dashboardShop.vue")
+);
 const User = defineAsyncComponent(
   () => import("./components/ecommerce/user/user.vue")
+);
+const Comment = defineAsyncComponent(
+  () => import("./components/ecommerce/comment/comment.vue")
 );
 const Order = defineAsyncComponent({
   loader: () => import("./components/ecommerce/order/order.vue"),
@@ -44,6 +54,10 @@ const routes = [
       { path: "user", component: User },
       { path: "coupon", component: Coupon },
       { path: "order", component: Order },
+      { path: "comment", component: Comment },
+      { path: "dashboard", component: DashboardShop },
+      { path: "message", component: Message },
+
       { path: "err", component: Err },
       { path: "shop", component: Shop },
     ],

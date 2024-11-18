@@ -4,9 +4,15 @@ import {
   Icategory,
   IchildProduct,
   IdescriptionProduct,
+  Ifigue,
+  IfinalOutcome,
   IimageProduct,
+  IinputForGetFigue,
   Iouput,
+  IoutcomeOtherFigure,
   Iproduct,
+  IratingComment,
+  Ireply,
   Ishop,
 } from "@/interface/user";
 import instance from "../util/customAxios";
@@ -281,11 +287,131 @@ class ServiceProduct {
     }
   };
 
-  public findShop = (userId: number): Promise<Iouput<Ishop>> => {
+  public findShop = async (userId: number): Promise<Iouput<Ishop>> => {
     try {
-      return instance.get(`find-shop?userId=${userId}`);
+      return await instance.get(`find-shop?userId=${userId}`);
     } catch (error) {
       console.log(error);
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
+
+  public getAllCommentForShop = async (
+    shopId: number
+  ): Promise<Iouput<IratingComment[]>> => {
+    try {
+      return await instance.get(`get-all-comment-for-shop?shopId=${shopId}`);
+    } catch (error) {
+      console.log(error);
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
+  public replyComment = async (data: Ireply): Promise<Iouput<Ireply>> => {
+    try {
+      return await instance.post(`reply-comment`, {
+        ...data,
+      });
+    } catch (error) {
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
+
+  public getAllCommentOfShop = async (
+    userId: number,
+    commentId: number
+  ): Promise<Iouput<Ireply[]>> => {
+    try {
+      return await instance.get(
+        `get-all-comment-of-shop?userId=${userId}&commentId=${commentId}`
+      );
+    } catch (error) {
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
+
+  public updateReply = async (data: Ireply): Promise<Iouput<string>> => {
+    try {
+      return await instance.put(`update-reply`, {
+        ...data,
+      });
+    } catch (error) {
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
+
+  public deleteReply = async (
+    userId: number,
+    commentId: number,
+    replyId: number
+  ): Promise<Iouput<string>> => {
+    try {
+      return await instance.delete(
+        `delete-reply?userId=${userId}&commentId=${commentId}&replyId=${replyId}`
+      );
+    } catch (error) {
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
+
+  public deleteComment = async (
+    userId: number,
+    commentId: number
+  ): Promise<Iouput<string>> => {
+    try {
+      return await instance.delete(
+        `delete-comment?userId=${userId}&commentId=${commentId}`
+      );
+    } catch (error) {
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
+
+  public getFigureForShop = async ({
+    shopId,
+    type,
+  }: IinputForGetFigue): Promise<Iouput<IfinalOutcome>> => {
+    try {
+      return await instance.post(`statistical-figue-for-shop`, {
+        shopId,
+        type,
+      });
+    } catch (error) {
+      return {
+        EC: 1,
+        EM: "error",
+      };
+    }
+  };
+
+  public getOtherFigureForShop = async (
+    shopId: number
+  ): Promise<Iouput<IoutcomeOtherFigure>> => {
+    try {
+      return await instance.get(
+        `statistical-figue-other-for-shop?shopId=${shopId}`
+      );
+    } catch (error) {
       return {
         EC: 1,
         EM: "error",

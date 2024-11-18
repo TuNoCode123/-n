@@ -1,14 +1,16 @@
+import exp from "constants";
+
 export interface Iuser {
   id?: any;
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
   firstName: string;
   lastName: string;
-  address: string;
-  phoneNumber: string;
-  gender: string;
+  address?: string;
+  phoneNumber?: string;
+  gender?: string;
   image: any;
-  roleId: string;
+  roleId?: string;
 }
 export interface Iouput<T> {
   EC: number;
@@ -42,6 +44,7 @@ export interface Iproduct {
   at_product?: Iattribute[];
   image?: any;
   quantity?: number;
+  comment_Rating: IRating[];
 }
 export interface Iinventory {
   id?: number;
@@ -93,6 +96,7 @@ export interface Ishop {
   description: string;
   name: string;
   address: string;
+  shop_Sellers: Iproduct[];
 }
 export interface Icounpon {
   dateTo: any;
@@ -153,4 +157,116 @@ export interface IorderItems {
     image: string;
   };
   inventory: number;
+}
+export interface IRating {
+  id: number;
+  productId: number;
+  productChildId: number;
+  orderId: number;
+  star: string;
+  status: string;
+  content: string;
+  totalLike: number;
+  totalResponse: number;
+  createdAt: Date;
+  updatedAt: string;
+  comment_rating: Icomment[];
+}
+export interface Icomment {
+  id: number;
+  userId: number;
+  firstName: string;
+  lastName: string;
+  image: string;
+  ratingId: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface IratingComment {
+  productId: number;
+  ProductName: string;
+  username: string;
+  content: string;
+  commentId: number;
+  date: string;
+  rating: number;
+  image: string;
+  userId: number;
+}
+export interface Ireply {
+  id?: number;
+  commentId: number;
+  userId: number;
+  content: string;
+  updatedAt?: any;
+  replyId?: any;
+}
+export interface IinputForGetFigue {
+  shopId: number;
+  type: string;
+}
+export interface Ifigue {
+  type: string;
+  pre: any;
+  cur: any;
+  change: any;
+  iconColor: string;
+  valueColor: string;
+  changeColor: string;
+  detailOrder?: any;
+}
+export interface IfinalOutcome {
+  DT: Ifigue[];
+  date: Ifigue;
+}
+export interface IoutcomeOtherFigure {
+  revenueAndOrder: IoutputReOr[];
+  category: IoutputCategories[];
+  sellMonth: {
+    listMonth: string[];
+    listProduct: ISellMonthProduct[];
+  };
+  newListStatus: Istatus[];
+}
+export interface IoutputReOr {
+  month: string;
+  total_revenue: number;
+  total_Order: number;
+}
+export interface IoutputCategories {
+  id: number;
+  category: string;
+  total_products: number;
+}
+export interface ISellMonthProduct {
+  name: string;
+  sellMonth: number[];
+}
+export interface Istatus {
+  name: string;
+  total: number;
+  percent: number;
+}
+export interface Imess {
+  roomId: string;
+  senderId: number;
+  text?: string;
+  _id?: string;
+  createdAt: string;
+  image?: any;
+  type?: string;
+}
+export interface IoutputGetMess {
+  roomId: string;
+  messages: Imess[];
+}
+export interface IuserOnline {
+  socketId: string;
+  userId: number;
+}
+export interface Inotification {
+  senderId: number;
+  text: string;
+  date: string;
 }

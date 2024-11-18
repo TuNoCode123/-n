@@ -2,9 +2,18 @@ import {
   Iattribute,
   IchildProduct,
   IdescriptionProduct,
+  Ifigue,
+  IfinalOutcome,
   IimageProduct,
+  IinputForGetFigue,
+  IoutputCategories,
+  IoutputReOr,
   Iproduct,
+  IratingComment,
+  Ireply,
+  ISellMonthProduct,
   Ishop,
+  Istatus,
   Iuser,
 } from "@/interface/user";
 import productService from "@/services/product-service";
@@ -69,6 +78,14 @@ interface IuseDeleteProductStore {
   selectedProduct?: IimageProduct;
   listChildsProduct?: IchildProduct[];
   shop?: Ishop;
+  shopComment?: IratingComment[];
+  listReply?: Ireply[];
+  figue?: IfinalOutcome;
+  otherFigure?: IoutputReOr[];
+  categories?: IoutputCategories[];
+  listMonth?: string[];
+  listProductsPerMonth?: ISellMonthProduct[];
+  listStatus?: Istatus[];
 }
 export const useDeleteProductStore = defineStore("useDeleteProductStore", {
   state: (): IuseDeleteProductStore => ({
@@ -299,6 +316,34 @@ export const updateAttributeOfProduct = defineStore(
   }
 );
 
+export const getCommentForShop = defineStore("getCommentForShop", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: -99,
+    isEM: "",
+  }),
+  actions: {
+    async getComment(shopId: number) {
+      try {
+        this.isLoading = true;
+        const res = await productService.getAllCommentForShop(shopId);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+        this.shopComment = res.data;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+
 export const updateProduct = defineStore("updateProduct", {
   state: (): IuseDeleteProductStore => ({
     isLoading: false,
@@ -505,6 +550,200 @@ export const findExistedShop = defineStore("findExistedShop", {
         this.isEc = res.EC;
         this.isEM = res.EM;
         this.shop = res.data;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+
+export const replyCommentByPn = defineStore("replyComment", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async replyComment(data: Ireply) {
+      try {
+        this.isLoading = true;
+        const res = await productService.replyComment(data);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+export const getAllReply = defineStore("getAllReply", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async getAllReply(userId: number, commentId: number) {
+      try {
+        this.isLoading = true;
+        const res = await productService.getAllCommentOfShop(userId, commentId);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+        this.listReply = res.data;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+export const updateReply = defineStore("updateReply", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async updateReply(data: Ireply) {
+      try {
+        this.isLoading = true;
+        const res = await productService.updateReply(data);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+export const deleteReply = defineStore("deleteReply", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async deleteReply(userId: number, commentId: number, replyId: number) {
+      try {
+        this.isLoading = true;
+        const res = await productService.deleteReply(
+          userId,
+          commentId,
+          replyId
+        );
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+export const deleteComments = defineStore("deleteComment", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async deleteComment(userId: number, commentId: number) {
+      try {
+        this.isLoading = true;
+        const res = await productService.deleteComment(userId, commentId);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+export const getFigueForShops = defineStore("getFigueForShop", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async getFigureForShop(data: IinputForGetFigue) {
+      try {
+        this.isLoading = true;
+        const res = await productService.getFigureForShop({ ...data });
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+        this.figue = res.data;
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+        this.isEc = 99;
+        this.isEM = "error pinia";
+      }
+    },
+    reset() {
+      this.isEc = 99;
+    },
+  },
+});
+export const getOtherFigueForShops = defineStore("getOtherFigueForShops", {
+  state: (): IuseDeleteProductStore => ({
+    isLoading: false,
+    isEc: 99,
+    isEM: "",
+  }),
+  actions: {
+    async getOtherFigureForShop(shopId: number) {
+      try {
+        this.isLoading = true;
+        const res = await productService.getOtherFigureForShop(shopId);
+        this.isLoading = false;
+        this.isEc = res.EC;
+        this.isEM = res.EM;
+        this.otherFigure = res.data?.revenueAndOrder;
+        this.categories = res.data?.category;
+        this.listMonth = res.data?.sellMonth.listMonth;
+        this.listProductsPerMonth = res.data?.sellMonth.listProduct;
+        this.listStatus = res.data?.newListStatus;
       } catch (error) {
         console.log(error);
         this.isLoading = false;

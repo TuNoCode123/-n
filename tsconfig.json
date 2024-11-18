@@ -8,6 +8,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["./src/emoji-mart-vue.d.ts"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types" // Thêm dòng này
+    ]
   }
 }
