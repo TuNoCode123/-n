@@ -3,6 +3,7 @@ import { Iattribute, Icounpon } from "@/interface/user";
 import { createCoupon, updateCoupon } from "@/pinia/couponStore";
 import { updateAttributeOfProduct } from "@/pinia/productStore";
 import { useUserStore } from "@/pinia/userStore";
+import { parseNumber } from "@/util/formatMoney";
 import { format, parse, parseISO } from "date-fns";
 import _ from "lodash";
 import { computed, inject, ref, Ref, watch, watchEffect } from "vue";
@@ -34,7 +35,10 @@ async function hanldeUpdate() {
   if (!currentCoupon || !currentCoupon.value) return;
 
   const newObject = _.cloneDeep(currentCoupon.value);
-  await useCoupon.updateCouponWithData(newObject);
+  await useCoupon.updateCouponWithData({
+    ...newObject,
+    description: `Giảm ${parseNumber(newObject.discount)}`,
+  });
 }
 watch(
   () => useCoupon.EC,

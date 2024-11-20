@@ -72,15 +72,7 @@ watch(
     }
   }
 );
-watch(
-  () => socket?.value,
-  (socketInstance) => {
-    if (!socketInstance) return;
-    socketInstance.on("updateNewMess", (data) => {
-      console.log("update", data);
-    });
-  }
-);
+
 const isCollapsed = ref(false);
 provide("isCollapsed", isCollapsed);
 const isOpenGuest = ref(false);

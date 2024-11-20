@@ -116,8 +116,14 @@ const hanlderOnlickNot = (not: GroupChat) => {
                   <p class="text-sm font-medium text-gray-900">
                     {{ message[message.length - 1].name }}
                   </p>
-                  <p class="text-sm text-gray-500 truncate">
+                  <p
+                    v-if="message[message.length - 1].text"
+                    class="text-sm text-gray-500 truncate"
+                  >
                     {{ message[message.length - 1].text }}
+                  </p>
+                  <p v-else class="text-sm text-gray-500 truncate">
+                    Đã gửi ảnh cho bạn!!!
                   </p>
                   <p class="text-xs text-gray-400 mt-1">
                     {{ formatTime(message[message.length - 1].date) }}

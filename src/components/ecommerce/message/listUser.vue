@@ -37,7 +37,10 @@ const getCurrentNotification = (item: Inotification[], partnerId: number) => {
 
   return {
     len: res.length,
-    final: res.length > 0 && res[res.length - 1]?.text,
+    final:
+      res.length > 0 && res[res.length - 1]?.text
+        ? res[res.length - 1]?.text
+        : "Đã gửi ảnh cho bạn!!!",
     finalTime: res.length > 0 && formatSchedual(res[res.length - 1].date),
   };
 };

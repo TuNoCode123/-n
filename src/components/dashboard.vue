@@ -96,6 +96,16 @@ watch(
           // chat.addNotification(notifications.value);
         }
       };
+      const hanlderUpdate = (data: any) => {
+        chat.updateMess(data);
+      };
+      const hanlderDelete = (data: any) => {
+        console.log("delete", data);
+        chat.deleteMess(data);
+      };
+      socketInstance.on("updateNewMess", hanlderUpdate);
+      socketInstance.on("deletePresentMess", hanlderDelete);
+
       socketInstance.on("notification", getNotification);
 
       socketInstance.on("receiverMess", handleReceiverMess);
@@ -104,6 +114,8 @@ watch(
         socketInstance.off("totalUserOnline", handleTotalUserOnline);
         socketInstance.off("receiverMess", handleReceiverMess);
         socketInstance.off("notification", getNotification);
+        socketInstance.off("updateNewMess", hanlderUpdate);
+        socketInstance.off("deletePresentMess", hanlderDelete);
       };
     }
   }

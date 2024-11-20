@@ -54,6 +54,7 @@ const createCoupons = async () => {
   const minutes = currentDate.getMinutes(); // Lấy phút hiện tại
   const seconds = currentDate.getSeconds(); // Lấy giây hiện tại
   const dateWithCurrentTime = `T${hours}:${minutes}:${seconds}`;
+  console.log("dateWithCurrentTime", dateWithCurrentTime);
   await coupon.createCouponWithData(newCoupon.value, dateWithCurrentTime);
 };
 watch(

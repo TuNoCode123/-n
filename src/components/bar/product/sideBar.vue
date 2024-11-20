@@ -14,9 +14,10 @@ import {
   MessageCircleMore,
 } from "lucide-vue-next";
 import { RouterLink } from "vue-router";
+import { useAccountStore } from "@/pinia/accountStore";
 
 const activeDropdown = ref(null);
-
+const user = useAccountStore();
 const toggleDropdown = (dropdown) => {
   activeDropdown.value = activeDropdown.value === dropdown ? null : dropdown;
 };
@@ -42,7 +43,7 @@ const toggleDropdown = (dropdown) => {
         <!-- Navigation Items -->
         <div class="space-y-1">
           <!-- eCommerce Dropdown -->
-          <div class="relative">
+          <div v-if="user.inforUser?.roleId === 'R1'" class="relative">
             <button
               @click="toggleDropdown('ecommerce')"
               class="w-full flex items-center justify-between px-2 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
@@ -94,7 +95,7 @@ const toggleDropdown = (dropdown) => {
             </div>
           </div>
           <!-- coupon -->
-          <div class="relative">
+          <div v-if="user.inforUser?.roleId === 'R1'" class="relative">
             <button
               @click="toggleDropdown('ecommerce')"
               class="w-full flex items-center justify-between px-2 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"

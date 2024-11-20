@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick, inject, Ref, watch } from "vue";
+import { ref, onMounted, nextTick, inject, Ref, watch, watchEffect } from "vue";
 
 import ChatInput from "./chatInput.vue";
 import { useChatStore } from "@/pinia/chatStore";
@@ -186,25 +186,9 @@ const hanlderDeleteMessage = async () => {
   // modalDelete.value = true;
 };
 
-// watch(
-//   () => chat.isEcUpdateMessage,
-//   (n) => {
-//     if (n == 0) {
-//       socket?.value.emit("updateMess", {
-//         receiverId: currentUser?.value.id,
-//         mess: {
-//           createdAt: date,
-//           text: textCurrent.value,
-//           _id: mess.value?._id,
-//         },
-//       });
-//       chat.resetiIsNewChat();
-//     } else if (n == 1) {
-//       if (chat.isEmUpdateMessage) toast.error(chat.isEmUpdateMessage);
-//       chat.resetiIsNewChat();
-//     }
-//   }
-// );
+watchEffect(() => {
+  console.log(chat.listMessages);
+});
 </script>
 
 <template>

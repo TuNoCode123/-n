@@ -132,5 +132,19 @@ export const useChatStore = defineStore("useChatStore", {
         return l;
       });
     },
+    deleteMess(mess: Imess) {
+      this.listMessages = this.listMessages?.map((l) => {
+        if (l._id == mess._id) {
+          return {
+            ...l,
+            text: mess.text,
+            createdAt: mess.createdAt,
+            type: mess.type,
+            image: null,
+          };
+        }
+        return l;
+      });
+    },
   },
 });
